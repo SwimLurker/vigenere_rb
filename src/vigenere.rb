@@ -3,9 +3,9 @@ class Vigenere
 		if args.length != 3
 			printUsage
 		elsif args[0] == '-e'
-			encrypt(args[1], args[2])
+			puts encrypt(args[1], args[2])
 		elsif args[0] == '-d'
-			decrypt(args[1], args[2])
+			puts decrypt(args[1], args[2])
 		else
 			printUsage
 		end
@@ -23,14 +23,16 @@ class Vigenere
 	    c = srcStr.upcase[i]
 	    if isUpperLetter(c)
 	      result.concat(encryptChar(c, cipher[j]).chr)
-	      j += 1
+	      j =(j+1)%cipher.length
+      else
+        result.concat(' ')
 	    end
 	  end
 	  return result
 	end
 	
 	def encryptChar(sc, cc)
-	  (((sc - 'A'[0]) + (cc - 'A'[0])) % 26) + 'A'[0]
+	  (((sc.ord- ('A'.ord)) + (cc.ord - ('A'.ord))) % 26) + ('A'.ord)
 	end
 	
 	def decrypt(encStr,cipher)
@@ -40,18 +42,20 @@ class Vigenere
       c = encStr.upcase[i]
       if isUpperLetter(c)
         result.concat(decryptChar(c, cipher[j]).chr)
-        j += 1
+        j = (j + 1) % cipher.length
+      else
+        result.concat(' ')
       end
     end
     return result
   end
   
   def decryptChar(ec, cc)
-    (((ec + 26) - cc) % 26) + 'A'
+    (((ec.ord + 26) - cc.ord) % 26) + 'A'.ord
   end
   
   def isUpperLetter(c)
-    if((c >= 'A'[0]) and (c <= 'Z'[0]))
+    if((c >= 'A') and (c <= 'Z'))
       true
     end
   end
